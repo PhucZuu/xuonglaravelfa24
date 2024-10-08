@@ -35,6 +35,7 @@
                         <li class="p-2"><a href="{{ route('orders') }}">Orders</a></li>
                         <li class="p-2"><a href="{{ route('profile') }}">Profile</a></li>
                         <li class="p-2"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                        <li class="p-2"><a href="{{ route('transactions') }}">Transaction</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
