@@ -82,12 +82,14 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('forgot-password');
 
-Route::get('/transactions',                      [TransactionController::class, 'index'])->name('transactions');
-Route::get('/transactions/create',               [TransactionController::class, 'create'])->name('transactions.create');
-Route::get('/transactions/confirm-transaction',  [TransactionController::class, 'confirmTransaction'])->name('transactions.confirm');
-Route::post('/start-transaction',                [TransactionController::class, 'startTransaction'])->name('transactions.start');
-Route::post('/update-transaction-status',        [TransactionController::class, 'completeTransactionStatus'])->name('transactions.complete');
-Route::post('/cancel-transaction',               [TransactionController::class, 'cancelTransaction'])->name('transactions.cancel');
+Route::middleware('auth')->group(function(){
+    Route::get('/transactions',                      [TransactionController::class, 'index'])->name('transactions');
+    Route::get('/transactions/create',               [TransactionController::class, 'create'])->name('transactions.create');
+    Route::get('/transactions/confirm-transaction',  [TransactionController::class, 'confirmTransaction'])->name('transactions.confirm');
+    Route::post('/start-transaction',                [TransactionController::class, 'startTransaction'])->name('transactions.start');
+    Route::post('/update-transaction-status',        [TransactionController::class, 'completeTransactionStatus'])->name('transactions.complete');
+    Route::post('/cancel-transaction',               [TransactionController::class, 'cancelTransaction'])->name('transactions.cancel');
+});
 
 // Route::get('/query', function () {
 
