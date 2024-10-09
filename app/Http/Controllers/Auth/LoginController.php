@@ -65,7 +65,7 @@ class LoginController extends Controller
 
             Auth::login($user, $remember);
 
-            return redirect()->route('dashboard');
+            return redirect()->intended('home');
         }
 
         return back()->withErrors([

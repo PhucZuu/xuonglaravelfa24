@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Post extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'project_name',
-        'description',
-        'start_date'
+        'title',
     ];
 
-    public function tasks()
+    public function comments()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Comment::class);
     }
 }

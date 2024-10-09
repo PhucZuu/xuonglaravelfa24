@@ -10,7 +10,10 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Middleware\FlagMiddleware;
 use App\Models\Expense;
 use App\Models\FinancialReport;
+use App\Models\Phone;
+use App\Models\Post;
 use App\Models\Sale;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -67,10 +70,10 @@ Route::middleware('check.auth:admin,client')->group(function () {
     })->name('profile');;
 });
 
-Route::get('/login'     ,[LoginController::class   , 'showLoginForm'])->name('login');
-Route::post('/login'    ,[LoginController::class   , 'login']);
-Route::get('/register'  ,[RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register' ,[RegisterController::class, 'register']);
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
@@ -82,7 +85,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('forgot-password');
 
-Route::middleware('auth')->group(function(){
+Route::middleware('auth')->group(function () {
     Route::get('/transactions',                      [TransactionController::class, 'index'])->name('transactions');
     Route::get('/transactions/create',               [TransactionController::class, 'create'])->name('transactions.create');
     Route::get('/transactions/confirm-transaction',  [TransactionController::class, 'confirmTransaction'])->name('transactions.confirm');
@@ -90,6 +93,56 @@ Route::middleware('auth')->group(function(){
     Route::post('/update-transaction-status',        [TransactionController::class, 'completeTransactionStatus'])->name('transactions.complete');
     Route::post('/cancel-transaction',               [TransactionController::class, 'cancelTransaction'])->name('transactions.cancel');
 });
+
+Route::get('/users', function () {
+    $data = User::with('phone')->paginate(10);
+
+    return view('user-list', compact('data'));
+});
+
+Route::get('/phones/{id}', function ($id) {
+    $phone = Phone::with(['user'])->find($id);
+
+    dd($phone->user);
+});
+
+Route::get('/posts/{id}', function ($id) {
+    $post = Post::with('comments')->find($id);
+
+    dd($post->toArray());
+});
+
+Route::get('/users/{id}/add-role', function ($id) {
+    $roles = [1,2,4,6,7];
+
+    $user = User::find($id);
+
+    $user->roles()->attach($roles);
+
+    dd($user->load('roles')->toArray());
+});
+
+Route::get('/users/{id}/remove-role', function ($id) {
+    $roles = [6,7];
+
+    $user = User::find($id);
+
+    $user->roles()->detach($roles);
+
+    dd($user->load('roles')->toArray());
+});
+
+Route::get('/users/{id}/sync-role', function ($id) {
+    $roles = [2,3,6,8,5];
+
+    $user = User::find($id);
+
+    $user->roles()->sync($roles); 
+
+    dd($user->load('roles')->toArray());
+});
+
+
 
 // Route::get('/query', function () {
 
