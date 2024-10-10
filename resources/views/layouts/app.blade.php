@@ -30,6 +30,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        <li class="p-2"><a href="{{ route('students.index') }}">Students</a></li>
                         <li class="p-2"><a href="{{ route('movies') }}">Movies</a></li>
                         <li class="p-2"><a href="{{ route('admin') }}">Admin</a></li>
                         <li class="p-2"><a href="{{ route('orders') }}">Orders</a></li>

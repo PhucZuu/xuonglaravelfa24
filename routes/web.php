@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Middleware\FlagMiddleware;
 use App\Models\Expense;
@@ -33,6 +34,8 @@ Route::get('/', function () {
 
     return view('home');
 });
+
+Route::resource('students', StudentController::class);
 
 Route::resource('customers', CustomerController::class);
 Route::delete('customers/{customer}/forceDestroy', [CustomerController::class, 'forceDestroy'])
